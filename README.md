@@ -46,5 +46,14 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-**Contributors:**
-- [@mahbublimon](https://github.com/mahbublimon): Kazi Mahbub Morshed Limon (Contributor Description)
+## Contributors
+
+<div align="center">
+  <a href="https://github.com/mahbublimon">
+    <img src="https://github.com/username.png" width="100px" alt="Avatar">
+    <br>
+    <sub><b>Full Name</b></sub>
+  </a>
+  <br>
+  Contributor Description
+</div>

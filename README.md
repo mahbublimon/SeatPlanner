@@ -50,9 +50,9 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 <div align="center">
   <a href="https://github.com/mahbublimon">
-    <img src="https://github.com/username.png" width="100px" alt="Avatar">
+    <img src="https://github.com/mahbublimon.png" width="100px" alt="Avatar">
     <br>
-    <sub><b>Full Name</b></sub>
+    <sub><b>Kazi Mahbub Morshed Limon</b></sub>
   </a>
   <br>
   Contributor Description

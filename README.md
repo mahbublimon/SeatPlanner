@@ -1,39 +1,38 @@
 # Seat Planner
 
-Seat Planner is a simple web-based application designed to help instructors generate seat plans for their classrooms. It allows instructors to assign seats to students randomly, ensuring a fair and organized seating arrangement.
+Seat Planner is a straightforward web application designed to assist instructors in generating seat plans for their classrooms. It facilitates the random assignment of seats to students, ensuring an equitable and well-organized seating arrangement.
 
 ## Features
 
-- Generate random seat plans for classrooms.
-- Upload a CSV file containing student names and IDs.
-- Specify the course name, section, total number of students, rows, and columns.
-- Automatically assign seats to students randomly.
-- Reseat students with the click of a button.
-- Prevent cheating by reseating students who attempt to cheat.
+- **Random Seat Generation:** Automatically generates random seat plans for classrooms.
+- **CSV Upload:** Allows instructors to upload a CSV file containing student names and IDs.
+- **Customization:** Specify course name, section, total number of students, rows, and columns for seating arrangement.
+- **Reseating:** Easily reseat students with a single click.
+- **Cheating Prevention:** Automatically reassigns seats for students attempting to cheat.
 
 ## Usage
 
-1. Clone the repository or download the source code.
-2. Open the `index.html` file in a web browser.
-3. Fill in the required information:
+1. **Setup**: Clone the repository or download the source code.
+2. **Launch**: Open the `index.html` file in any web browser.
+3. **Input**: Fill in required details:
    - Course name
    - Section
    - Total number of students
-   - Number of rows and columns in the seating arrangement
-   - Upload a CSV file containing student names and IDs
-4. Click on the "Generate Seat Plan" button.
-5. The seat plan will be displayed, showing the assigned seats for each student.
-6. If a student attempts to cheat, click on the "Reseat" button next to their name to assign them a new seat.
+   - Rows and columns for seating arrangement
+   - Upload a CSV file with student names and IDs
+4. **Generate**: Click the "Generate Seat Plan" button.
+5. **Display**: The seat plan will be shown, indicating assigned seats for each student.
+6. **Reseat**: In case of cheating, click "Reseat" next to the student's name to assign them a new seat.
 
 ## File Format
 
-The CSV file should have the following format:
+Ensure the CSV file follows this format:
 
 ```
 Student ID,Student Name
 ```
 
-Ensure that the CSV file contains one row per student, with the student ID and name separated by a comma.
+Each student should have one row, with the student ID and name separated by a comma.
 
 ## Technologies Used
 
@@ -43,4 +42,9 @@ Ensure that the CSV file contains one row per student, with the student ID and n
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+**Contributors:**
+- [@mahbublimon](https://github.com/mahbublimon): Kazi Mahbub Morshed Limon (Contributor Description)

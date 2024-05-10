@@ -43,17 +43,3 @@ Each student should have one row, with the student ID and name separated by a co
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-## Contributors
-
-<div align="center">
-  <a href="https://github.com/mahbublimon">
-    <img src="https://github.com/mahbublimon.png" width="100px" alt="Avatar">
-    <br>
-    <sub><b>Kazi Mahbub Morshed Limon</b></sub>
-  </a>
-  <br>
-  Contributor Description
-</div>

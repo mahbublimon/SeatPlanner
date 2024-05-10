@@ -44,4 +44,3 @@ Ensure that the CSV file contains one row per student, with the student ID and n
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```

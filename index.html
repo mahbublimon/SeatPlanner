@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Planner</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #333;
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .empty-seat {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Seat Planner</h1>
+        <form id="seatPlannerForm">
+            <label for="courseName">Course Name:</label>
+            <input type="text" id="courseName" name="courseName" required><br><br>
+
+            <label for="section">Section:</label>
+            <input type="text" id="section" name="section" required><br><br>
+
+            <label for="totalStudents">Total Students:</label>
+            <input type="number" id="totalStudents" name="totalStudents" required><br><br>
+
+            <label for="rows">Rows:</label>
+            <input type="number" id="rows" name="rows" required><br><br>
+
+            <label for="columns">Columns:</label>
+            <input type="number" id="columns" name="columns" required><br><br>
+
+            <label for="csvFile">Upload CSV File:</label>
+            <input type="file" id="csvFile" name="csvFile" accept=".csv" required><br><br>
+
+            <button type="button" onclick="generateSeatPlan()">Generate Seat Plan</button>
+        </form>
+
+        <div id="seatPlanContainer"></div>
+    </div>
+
+    <script>
+        var studentIDs = []; // Array to store student IDs
+        var studentNames = []; // Array to store student names
+        var emptySeats = []; // Array to store empty seat indices
+
+        function generateSeatPlan() {
+            var courseName = document.getElementById("courseName").value;
+            var section = document.getElementById("section").value;
+            var totalStudents = parseInt(document.getElementById("totalStudents").value);
+            var rows = parseInt(document.getElementById("rows").value);
+            var columns = parseInt(document.getElementById("columns").value);
+            var fileInput = document.getElementById("csvFile");
+
+            // Check if file is selected
+            if (fileInput.files.length === 0) {
+                alert("Please select a CSV file.");
+                return;
+            }
+
+            var reader = new FileReader();
+
+            reader.onload = function(event) {
+                var csvData = event.target.result;
+                var studentData = csvData.split("\n").map(row => row.split(","));
+
+                // Extracting student names and IDs
+                studentIDs = [];
+                studentNames = [];
+                emptySeats = [];
+                for (var i = 0; i < studentData.length; i++) {
+                    if (studentData[i].length >= 2) {
+                        studentIDs.push(studentData[i][0].trim());
+                        studentNames.push(studentData[i][1].trim());
+                    }
+                }
+
+                if (studentIDs.length !== totalStudents) {
+                    alert("Number of students in CSV file does not match the specified total number of students.");
+                    return;
+                }
+
+                shuffleArrays(studentIDs, studentNames); // Shuffle the student IDs and names
+
+                // Generate empty seats
+                for (var i = 0; i < rows; i++) {
+                    for (var j = 0; j < columns; j++) {
+                        emptySeats.push([i, j]);
+                    }
+                }
+
+                // Generate and display seat plan
+                generateAndDisplaySeatPlan(rows, columns);
+            };
+
+            reader.readAsText(fileInput.files[0]);
+        }
+
+        function generateAndDisplaySeatPlan(rows, columns) {
+            // Generating seat plan HTML
+            var seatPlanHTML = "<h2>Seat Plan:</h2><table>";
+            var k = 0;
+            for (var i = 0; i < rows; i++) {
+                seatPlanHTML += "<tr>";
+                for (var j = 0; j < columns; j++) {
+                    var seatIndex = i * columns + j;
+                    var isSeatOccupied = k < studentIDs.length;
+                    if (isSeatOccupied) {
+                        var studentID = studentIDs[k];
+                        var studentName = studentNames[k];
+                        seatPlanHTML += "<td id='seat_" + seatIndex + "'>" + studentID + "<br>" + studentName + " <button onclick='reseatStudent(" + k + ")'>Reseat</button></td>";
+                        k++;
+                    } else {
+                        if (emptySeats.length > 0) {
+                            var emptySeat = emptySeats.shift();
+                            seatPlanHTML += "<td class='empty-seat'>" + (seatIndex + 1) + " <button onclick='occupySeat(" + emptySeat[0] + ", " + emptySeat[1] + ")'>Occupy</button></td>";
+                        } else {
+                            seatPlanHTML += "<td></td>"; // Add empty cell
+                        }
+                    }
+                }
+                seatPlanHTML += "</tr>";
+            }
+            seatPlanHTML += "</table>";
+
+            // Displaying seat plan
+            document.getElementById("seatPlanContainer").innerHTML = seatPlanHTML;
+        }
+
+        // Function to occupy an empty seat with a student
+        function occupySeat(row, column) {
+            if (studentIDs.length < studentNames.length) return; // All students are already seated
+
+            var seatIndex = row * parseInt(document.getElementById("columns").value) + column;
+            var studentID = studentIDs.shift();
+            var studentName = studentNames.shift();
+
+            document.getElementById("seat_" + seatIndex).innerHTML = studentID + "<br>" + studentName + " <button onclick='reseatStudent(" + (studentNames.length) + ")'>Reseat</button>";
+        }
+
+        // Function to reseat a student
+        function reseatStudent(index) {
+            if (emptySeats.length === 0) {
+                alert("No empty seats available to reseat.");
+                return;
+            }
+
+            var newSeat = emptySeats.shift();
+            var newRow = newSeat[0];
+            var newColumn = newSeat[1];
+            var seatIndex = newRow * parseInt(document.getElementById("columns").value) + newColumn;
+
+            var studentID = studentIDs[index];
+            var studentName = studentNames[index];
+
+            document.getElementById("seat_" + seatIndex).innerHTML = studentID + "<br>" + studentName + " <button onclick='reseatStudent(" + index + ")'>Reseat</button>";
+        }
+
+        // Function to shuffle arrays
+        function shuffleArrays(array1, array2) {
+            var currentIndex = array1.length, randomIndex, tempValue1, tempValue2;
+
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+
+                tempValue1 = array1[currentIndex];
+                array1[currentIndex] = array1[randomIndex];
+                array1[randomIndex] = tempValue1;
+
+                tempValue2 = array2[currentIndex];
+                array2[currentIndex] = array2[randomIndex];
+                array2[randomIndex] = tempValue2;
+            }
+
+            return array1;
+        }
+    </script>
+</body>
+</html>
